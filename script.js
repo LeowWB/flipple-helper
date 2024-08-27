@@ -61,11 +61,12 @@ guess_text.addEventListener(
         update_output('')
         if (!is_enter_keypress(event))
             return;
-        let guess_word = guess_text.value;
+        let guess_word = guess_text.value
         if (guess_word.length !== 5) {
             update_output('should be length 5')
             return
         }
+        let in_start_side = false
         for (let i = 0; i < start_side_words.length; i++) {
             let same_chars = 0
             for (let j = 0; j < 5; j++) {
@@ -76,7 +77,8 @@ guess_text.addEventListener(
             if (same_chars === 4) {
                 start_side_words.push(guess_word)
                 update_start_end_sides()
-                return
+                in_start_side = true
+                break
             }
         }
         for (let i = 0; i < end_side_words.length; i++) {
@@ -89,9 +91,14 @@ guess_text.addEventListener(
             if (same_chars === 4) {
                 end_side_words.push(guess_word)
                 update_start_end_sides()
+                if (in_start_side) {
+                    alert('path found')
+                }
                 return
             }
         }
-        update_output('no match')
+        if (!in_start_side) {
+            update_output('no match')
+        }
     }
 )
